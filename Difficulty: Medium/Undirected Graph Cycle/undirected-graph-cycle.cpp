@@ -33,9 +33,14 @@ class Solution {
     bool isCycle(vector<vector<int>>& adj) {
         // Code here
         int vis[adj.size()] = {0};
+        
+        //this for loop is because we have to consider connected component graph too
+        //otherwise we will also write directly src = 0 and then traverse or iterate-- 
+        //--if we dont have to consider connected component
+        
         for(int i = 0 ; i < adj.size() ;i++){
             if(!vis[i]){
-                if(detect(i , adj , vis)) return 1;
+                if(detect(i , adj , vis)== true) return 1;
             }
         }
         return 0;
