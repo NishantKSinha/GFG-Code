@@ -30,8 +30,10 @@ class Solution {
         }
         vector<int>ans;
         while(!st.empty()){
-            ans.push_back(st.top());
-                st.pop();
+            int node = st.top();
+            st.pop();
+            ans.push_back(node);
+                
         }
         return ans;
     }
