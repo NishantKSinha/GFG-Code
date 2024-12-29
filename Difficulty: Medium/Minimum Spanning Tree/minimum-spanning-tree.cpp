@@ -7,8 +7,9 @@ using namespace std;
 
 
 class DisjointSet {
-    vector<int> parent, size;
+   
 public:
+ vector<int> parent, size;
     DisjointSet(int n) {
         parent.resize(n + 1);
         size.resize(n + 1);
@@ -45,7 +46,7 @@ class Solution {
     // Function to find sum of weights of edges of the Minimum Spanning Tree.
     int spanningTree(int V, vector<vector<int>> adj[]) {
         // code here
-        vector<pair<int, pair<int, int>>> edges;
+        vector<pair<int, pair<int, int>>> edges;  // vector<pair<int, int>> mst; for storing
         for (int i = 0; i < V; i++) {
             for (auto it : adj[i]) {
                 int adjNode = it[0];
@@ -64,6 +65,7 @@ class Solution {
             int v = it.second.second;
 
             if (ds.findUPar(u) != ds.findUPar(v)) {
+                // mst.push_back({u, v});   and declare mst vector above for loop
                 mstWt += wt;
                 ds.unionBySize(u, v);
             }
