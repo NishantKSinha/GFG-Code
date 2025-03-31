@@ -5,6 +5,7 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 // User function template for C++
 class Solution {
   public:
@@ -12,22 +13,22 @@ class Solution {
     // largest elements
     int getSecondLargest(vector<int> &arr) {
         // Code Here
-        int min1 = arr[0];
-        int min2 = -1;
-        for(int i = 1; i < arr.size();i++){
-            if(min1 < arr[i] ) {
-                min2 = min1;
-                min1 = arr[i];
-                
-            }
-            if(min1 > arr[i] && min2 < arr[i]) {
-                min2 = arr[i];
-               
+        int ans1 = 0 ;
+        int ans2 = -1;
+        for(int i = 0 ; i < arr.size();i++){
+            if(ans1 < arr[i] ){
+                ans1 = arr[i];
             }
         }
-        return min2; 
+          for(int i = 0 ; i < arr.size();i++){
+            if(ans1 > arr[i] && ans2 < arr[i]){
+                ans2 = arr[i];
+            }
+        }
+        return ans2;
     }
 };
+
 
 //{ Driver Code Starts.
 
@@ -47,6 +48,7 @@ int main() {
         Solution ob;
         int ans = ob.getSecondLargest(arr);
         cout << ans << endl;
+        cout << "~" << endl;
     }
     return 0;
 }
