@@ -1,50 +1,52 @@
 //{ Driver Code Starts
-//Initial Template for C++
-
 #include <bits/stdc++.h>
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <vector>
 using namespace std;
 
-// } Driver Code Ends
-//User function Template for C++
 
-class Solution
-{
-public:
-    int largest(vector<int> &arr, int n)
-    { 
-        int ans;
-        if(arr.size() == 1){
-            ans = arr[0];
+// } Driver Code Ends
+
+// User function Template for C++
+
+class Solution {
+  public:
+    int largest(vector<int> &arr) {
+        // code here
+        int max = 0;
+        for(int i = 0 ; i<arr.size();i++){
+            if(max < arr[i]) max = arr[i];
         }
-        for(int i = 0 ; i < arr.size()-1;i++){
-            if(arr[i + 1] >= arr[i]){
-                ans = max(ans,arr[i+1]);
-            }
-            else{
-                ans = max(ans,arr[i]);
-            }
-        }
-        return ans;
+        return max;
     }
 };
 
 
+
 //{ Driver Code Starts.
-int main()
-{
+
+int main() {
+
     int t;
     cin >> t;
-    while (t--)
-    {
-        int n;
-        cin >> n;
-        vector<int>arr(n);
-        for (int i = 0; i < n; i++)
-        {
-            cin >> arr[i];
+    cin.ignore();
+
+    while (t--) {
+        string input;
+        int num;
+        vector<int> arr;
+
+        getline(cin, input);
+        stringstream s2(input);
+        while (s2 >> num) {
+            arr.push_back(num);
         }
+
         Solution ob;
-        cout << ob.largest(arr, n) << "\n";
+        cout << ob.largest(arr) << endl;
+        cout << "~" << endl;
     }
     return 0;
 }
