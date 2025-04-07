@@ -9,25 +9,19 @@ class Solution {
   public:
     vector<int> findTwoElement(vector<int>& arr) {
         // code here
-        vector<int>ans;
-        int missing = -1;
-        int repeating = -1;
-        
-        unordered_map<int,int>mp;
-        
-           for(int j = 0 ; j < arr.size();j++){
-                
-                mp[arr[j]] ++;
-            }
-            
-            for (int i = 1; i <= arr.size(); i++) {
-        if (mp[i] == 2) repeating = i;  // Found the repeating number
-        if (mp[i] == 0) missing = i;    // Found the missing number
-        
-        if (repeating != -1 && missing != -1) break;
-    }
-    
-        return ans = {repeating , missing};
+     unordered_map<int,int>mpp;
+     int missing = -1 , repeat = -1;
+     for(int i = 0 ; i < arr.size();i++){
+         mpp[arr[i]]++;
+     }
+     for(int i = 1 ; i <= arr.size();i++){
+         if(mpp.find(i) == mpp.end()) missing = i;
+     }
+     for(auto it : mpp){
+         if(it.second == 2 ) repeat = it.first;
+     }
+     
+     return{repeat,missing};
     }
 };
 
