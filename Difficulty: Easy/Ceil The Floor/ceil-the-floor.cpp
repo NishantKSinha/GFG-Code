@@ -6,31 +6,42 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 // User code template
 
 class Solution {
   public:
-  
     vector<int> getFloorAndCeil(int x, vector<int> &arr) {
         // code here
-        vector<int>ans;
-        int ans2 = -1 ;
-        int ans3 = 1e9 ;
-        for(int i = 0 ; i < arr.size() ; i++){
-            if(arr[i] <= x){
-                ans2 = max(ans2 , arr[i]);
+        sort(arr.begin(),arr.end());
+         int i = 0 , j  = arr.size()-1;
+        int lower = -1 , higher = INT_MAX;
+        while(i <= j){
+            int mid  = (i+j)/2;
+            if(arr[mid] <= x){
+                lower = max(lower,arr[mid]);
+                i = mid +1;
             }
-            if(arr[i] >=x){
-                ans3 = min(ans3 , arr[i]);
+            else{
+                j = mid-1;
             }
-            
         }
-        if(ans3 == 1e9) ans3 =-1;
-        ans.push_back(ans2);
-        ans.push_back(ans3);
-        return ans;
+         int k = 0 , l  = arr.size()-1;
+        while(k <= l){
+            int mid  = (k+l)/2;
+            if(arr[mid] >= x){
+                higher = min(higher,arr[mid]);
+                l = mid -1;
+            }
+            else{
+                k = mid+1;
+            }
+        }
+        if(higher == INT_MAX) higher =-1;
+        return{lower,higher};
     }
 };
+
 
 //{ Driver Code Starts.
 
@@ -54,7 +65,7 @@ int main() {
 
         Solution ob;
         auto ans = ob.getFloorAndCeil(x, arr);
-        cout << ans[0] << " " << ans[1] << "\n";
+        cout << ans[0] << " " << ans[1] << "\n~\n";
     }
     return 0;
 }
