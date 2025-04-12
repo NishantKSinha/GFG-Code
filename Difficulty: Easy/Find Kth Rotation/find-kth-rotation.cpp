@@ -5,33 +5,39 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 // User function template for C++
 class Solution {
   public:
-    int findKRotation(vector<int> &arr) {
+    int findKRotation(vector<int> &nums) {
         // Code Here
-        int count =0;
-        int l = 0;
-        int h = arr.size()-1;
-        while(l<=h){
-            int mid = (l+h)/2;
-           
-            if(arr[mid] > arr[h] ) {
-                count = count + (mid-l+1);
-                l = mid+1;
-            }
-             if(arr[mid] <= arr[h] && arr[l] > arr[mid]){
-                
-                 l++;
-                 count = count + 1;
-            }
-            if(arr[mid] <= arr[h] && arr[l] <= arr[mid]){
-                h = mid -1;
-            }
+        int cnt = -1;
+        int low = 0 ; 
+      int high = nums.size()-1;
+      int ans =INT_MAX;
+      while(low <= high){
+        int mid = (low+high)/2;
+         if(nums[low] <= nums[mid] ){
+            if(nums[low] < ans){
+                ans = nums[low];
+                cnt = low;
+            } 
+          
+            low = mid+1;
         }
-        return count;
+        else if(nums[mid] <= nums[high]){
+            if(nums[mid] < ans){
+                ans = nums[mid];
+                cnt = mid;
+            } 
+          
+            high = mid-1;
+        }
+      }
+      return cnt;
     }
 };
+
 
 
 //{ Driver Code Starts.
@@ -52,6 +58,8 @@ int main() {
         Solution ob;
         int res = ob.findKRotation(arr);
         cout << res << endl;
+        cout << "~" << endl;
     }
 }
+
 // } Driver Code Ends
