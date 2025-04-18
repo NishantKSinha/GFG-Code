@@ -9,7 +9,7 @@ using namespace std;
 
 class Solution {
   public:
-  int countStudents(vector<int> &arr, int pages) {
+  bool countStudents(vector<int> &arr, int pages,int k ) {
     int n = arr.size(); //size of array.
     int students = 1;
     long long pagesStudent = 0;
@@ -24,7 +24,8 @@ class Solution {
             pagesStudent = arr[i];
         }
     }
-    return students;
+    if(students <= k) return true;
+    else return false;
 }
   
     int findPages(vector<int> &arr, int k) {
@@ -35,18 +36,19 @@ class Solution {
 
     int low = *max_element(arr.begin(), arr.end());
     int high = accumulate(arr.begin(), arr.end(), 0);
+     int ans =-1; 
     while (low <= high) {
         int mid = (low + high) / 2;
-        int students = countStudents(arr, mid);
         
-        if (students > m) {
-            low = mid + 1;
+        if ( countStudents(arr, mid,k) == true) {
+            ans = mid;
+            high = mid -1 ;
         }
         else {
-            high = mid - 1;
+            low = mid +1 ;
         }
     }
-    return low;
+    return ans;
     }
 };
 
