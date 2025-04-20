@@ -4,40 +4,41 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 class Solution {
   public:
-    int kthElement(int k, vector<int>& arr1, vector<int>& arr2) {
+    int kthElement(vector<int>& a, vector<int>& b, int k) {
         // code here
-        int m = arr1.size();
-        int n = arr2.size();
-        if (m > n) return kthElement(k , arr2 , arr1);
+        int ans = -1;
+        int i = 0,j = 0;
+        vector<int>num;
+        while(i < a.size() && j < b.size()){
+             if(a[i] < b[j]){
+                num.push_back(a[i]);
+                i++;
+             }
+             else{
+               
+                 num.push_back(b[j]);
+                j++;
+             }
 
-    int left = k; //length of left half
-
-    //apply binary search:
-    int low = max(0, k - n), high = min(k, m);
-    while (low <= high) {
-        int mid1 = (low + high) >> 1;
-        int mid2 = left - mid1;
-        //calculate l1, l2, r1 and r2;
-        int l1 = INT_MIN, l2 = INT_MIN;
-        int r1 = INT_MAX, r2 = INT_MAX;
-        if (mid1 < m) r1 = arr1[mid1];
-        if (mid2 < n) r2 = arr2[mid2];
-        if (mid1 - 1 >= 0) l1 = arr1[mid1 - 1];
-        if (mid2 - 1 >= 0) l2 = arr2[mid2 - 1];
-
-        if (l1 <= r2 && l2 <= r1) {
-            return max(l1, l2);
         }
-
-        //eliminate the halves:
-        else if (l1 > r2) high = mid1 - 1;
-        else low = mid1 + 1;
-    }
-    return 0; //dummy statement
+        while(i < a.size()){
+          
+                num.push_back(a[i]);
+                i++;
+        }
+        while(j < b.size()){
+            
+             num.push_back(b[j]);
+                j++;
+        }
+        ans = num[k-1];
+        return ans;
     }
 };
+
 
 //{ Driver Code Starts.
 
@@ -52,22 +53,22 @@ int main() {
         cin.ignore();
         string input;
         int num;
-        vector<int> arr1, arr2;
+        vector<int> a, b;
 
         getline(cin, input);
         stringstream s2(input);
         while (s2 >> num) {
-            arr1.push_back(num);
+            a.push_back(num);
         }
 
         getline(cin, input);
         stringstream s3(input);
         while (s3 >> num) {
-            arr2.push_back(num);
+            b.push_back(num);
         }
 
         Solution ob;
-        cout << ob.kthElement(k, arr1, arr2) << endl;
+        cout << ob.kthElement(a, b, k) << endl << "~\n";
     }
     return 0;
 }
