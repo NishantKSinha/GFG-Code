@@ -24,6 +24,7 @@ void printList(Node* node) {
 
 
 // } Driver Code Ends
+
 // User function template for C++
 
 /*
@@ -41,37 +42,48 @@ struct Node
 
 */
 
-
 class Solution {
   public:
-   
-    int addhelper(Node* temp){
-        if(temp == NULL){
-            return 1;
-        }
-        int carry = addhelper(temp->next);
-        temp->data += carry;
-        if(temp->data <10) return 0;
-        else{
+  Node* reverse(Node* head){
+      Node* prev = NULL;
+      Node* temp = head;
+      Node* forward = head ->next;
+      while(forward != NULL){
+          temp->next = prev;
+          prev = temp;
+          temp = forward;
+          forward = forward->next;
+      }
+      temp->next = prev;
+       return temp;
+  }
+    Node* addOne(Node* head) { //reverse->add->reverse
+        // Your Code here
+       Node* newhead =  reverse(head);
+        Node* temp = newhead;
+        int carry = 1;
+        while(temp != NULL){
+            temp->data = temp->data +carry;
+            if(temp -> data < 10){
+                carry = 0;
+                break;
+            }
             temp->data = 0;
-            return 1;
+            carry =1;
+            temp = temp->next;
         }
-    }
-    Node* addOne(Node* head) {
-    //USE OF RECURSION GIVES BACKTRACKING WHICH REMOVE THE PROBLEM OF REVERSAL SO TC REDUCE     
-    //WE USE BACKTRACKING TO MINIMISE TC FROM O(3N) TO O(N)BUT SC INCREASEFROM O(1)->O(N)
-        
-        int carry = addhelper(head);
-         
-         if(carry == 1){
-             Node* newnode = new Node(1);
-             newnode->next = head;
-             head = newnode;
-         }
-         return head;
-        
+        if(carry == 1) {
+         Node* newnode = new Node(1);
+         Node* newhead2 = reverse(newhead);
+         newnode->next = newhead2;
+         return newnode;
+        }
+        Node* newhead1 = reverse(newhead);
+        return newhead1;
+        // return head of list after adding one
     }
 };
+
 
 //{ Driver Code Starts.
 
@@ -105,6 +117,7 @@ int main() {
         Solution ob;
         head = ob.addOne(head);
         printList(head);
+        cout << "~" << endl;
     }
     return 0;
 }
