@@ -81,6 +81,7 @@ bool verify(Node* head)
 
 
 // } Driver Code Ends
+
 /*
 struct Node
 {
@@ -93,36 +94,45 @@ struct Node
         next=NULL;
         prev=NULL;
     }
-        
+
 };
 */
 
-class Solution
-{
-public:
+class Solution {
+  public:
 
-    Node * removeDuplicates(struct Node *head)
-    {
+    Node *removeDuplicates(struct Node *head) {
         // Your code here
         struct Node *temp = head;
-        struct Node *curr = NULL;
-        while(temp != NULL && temp->next != NULL){
-            curr = temp->next;
-            
-            while(curr != NULL && curr->data == temp->data){
-                Node* duplicate = curr;
-                curr = curr->next;
-                free(duplicate);
+        struct Node *forward = temp->next;
+        if(head -> next == NULL) return head;
+        while(forward != NULL){
+            if(temp->data==forward->data && head->data == forward->data){
+                
+                temp->next = NULL;
+                
+                forward->prev = NULL;
+                temp = forward;
+                head = temp;
+                forward = forward->next;
             }
-            
-            temp->next = curr;
-            if(curr != NULL) curr->prev = temp;
-            
-            temp = temp->next;
+            else if(temp->data==forward->data && head->data != forward->data){
+               temp->prev->next = temp->next;
+                temp->next = NULL;
+                forward ->prev = temp->prev;
+                temp->prev = NULL;
+                temp = forward;
+                forward = forward->next;
+            }
+            else{
+                temp = temp->next;
+                forward = forward->next;
+            }
         }
         return head;
     }
 };
+
 
 //{ Driver Code Starts.
 
@@ -157,7 +167,9 @@ int main() {
 	    cout<<"Your pointers are not correctly connected";
  
 	    cout<<endl;
-	}
+	
+cout << "~" << "\n";
+}
 	return 0;
 }
 // } Driver Code Ends
