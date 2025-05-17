@@ -34,10 +34,10 @@ void printList(struct Node* head) {
 
 
 // } Driver Code Ends
+
 // User function Template for C++
 
-
-/* a Node of the doubly linked list 
+/* a Node of the doubly linked list
 struct Node
 {
   int data;
@@ -49,33 +49,44 @@ struct Node
 class Solution {
   public:
     void deleteAllOccurOfX(struct Node** head_ref, int x) {
-        Node* head = *head_ref;
-        Node* temp = head;
+        // Write your code here
+        struct Node* temp = *head_ref;
+        struct Node* forward = temp->next;
         
-      
-        while(temp != NULL){
-            if(temp->data == x){
-                //if it is head to delete
-                
-                if(temp == head){
-                    head = head->next;
-                        *head_ref=head;//update the head 
-                }
-                Node* nextNode = temp->next;
-                 Node* prevNode = temp->prev;
-                
-                if(nextNode != NULL) nextNode->prev = prevNode;
-                if(prevNode != NULL) prevNode->next = nextNode;
-                
-                free(temp);
-                temp = nextNode;
-            }
-            else{
-                temp = temp->next;
-            }
+        if((*head_ref)->next == NULL&& (*head_ref)->data == x ) {
+            delete *head_ref;
+        *head_ref = NULL;
+        return;
         }
+        while(forward != NULL){
+            if(temp->data == x && (*head_ref)->data == x){
+                temp = forward;
+                temp->prev = NULL;
+                *head_ref = temp;
+                forward = forward->next;
+            }
+            else if(temp->data == x && (*head_ref)->data != x){
+                temp->prev->next = temp->next;
+                temp->next->prev = temp->prev;
+                temp->next =NULL;
+                temp->prev =NULL;
+                delete temp;
+                temp = forward;
+                forward = forward->next;
+            }
+           else{ temp = forward;
+            forward = forward->next;
+           }
+        }
+        if(temp->data == x){
+            temp->prev->next = NULL;
+            temp->prev = NULL;
+            delete temp;
+        }
+        
     }
 };
+
 
 //{ Driver Code Starts.
 
@@ -116,7 +127,9 @@ int main() {
         cout << endl;
 
         // cout << "\n~\n";
-    }
+    
+cout << "~" << "\n";
+}
     // fclose(stdout);
 
     return 0;
