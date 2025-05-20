@@ -4,11 +4,12 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 class Solution {
   public:
     int longestSubarray(vector<int>& arr, int k) {
         // code here
-         int target = k ;
+        int target = k ;
         unordered_map<int,int>mpp; //locate sum with index
         int sum = 0 ;
         int maxlen = 0 ;
@@ -24,14 +25,16 @@ class Solution {
                 maxlen = max(maxlen, i - mpp[rem]);
             }
             
-            if(mpp.find(sum) == mpp.end()){ //in map it not present
+        if(mpp.find(sum) == mpp.end() ){    //in map it not present //for shortest->if(mpp.find(sum) == mpp.end() || mpp.find(sum) !=mpp.end())
                 
                 mpp[sum] = i ;
             }
         }
         return maxlen;
+        
     }
 };
+
 
 //{ Driver Code Starts.
 
