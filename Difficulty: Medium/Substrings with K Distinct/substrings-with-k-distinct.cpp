@@ -1,62 +1,31 @@
-//{ Driver Code Starts
-// Initial template for C++
-
-#include <bits/stdc++.h>
-using namespace std;
-
-
-// } Driver Code Ends
-// User function template for C++
-
 class Solution {
   public:
-    int countAtMostK(string& s , int k)
-    {
-        if(k == 0) return 0;
-        map<char , int> mpp ;
-        int left = 0 , right = 0 , cnt = 0 , dist = 0;
-        
-        while(right < s.length()){
-            
-            if(mpp[s[right]] == 0) dist++;
-            mpp[s[right]]++;
-            
-            while(dist> k)
-            {
-                mpp[s[left]]--;
-                if(mpp[s[left]] == 0)dist--;
-                left++;
+  int find(string &s , int k){
+      if (k <= 0) return 0;
+        int i = 0, j = 0, ans = 0;
+        int freq[26] = {0};
+        int distinct = 0;
+
+        while (j < s.size()) {
+            if (freq[s[j] - 'a'] == 0) distinct++;
+            freq[s[j] - 'a']++;
+
+            while (distinct > k) {
+                freq[s[i] - 'a']--;
+                if (freq[s[i] - 'a'] == 0) distinct--;
+                i++;
             }
-            
-            cnt += (right - left + 1);
-            right++;
+
+            ans += (j - i + 1);
+            j++;
         }
-        
-        return cnt;
-        
-    }
+
+        return ans;
+  }
     int countSubstr(string& s, int k) {
-        
-        return countAtMostK(s , k) - countAtMostK(s , k - 1);
-        
+        // code here.
+        int cnt1 = find(s,k);
+        int cnt2 = find(s,k-1);
+        return cnt1- cnt2;
     }
 };
-
-//{ Driver Code Starts.
-
-int main() {
-    int t;
-    cin >> t;
-    while (t--) {
-        string s;
-        cin >> s;
-        int k;
-        cin >> k;
-        Solution ob;
-        cout << ob.countSubstr(s, k) << endl;
-
-        cout << "~"
-             << "\n";
-    }
-}
-// } Driver Code Ends
