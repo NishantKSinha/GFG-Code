@@ -1,77 +1,51 @@
-//{ Driver Code Starts
-#include <bits/stdc++.h>
-using namespace std;
-
-
-// } Driver Code Ends
 class Solution {
   public:
-    // Function to detect cycle in an undirected graph.
-    
-    bool detect(int src ,vector<vector<int>>& adj,int vis[] ){
-        vis[src] = 1;
-        queue<pair<int,int>>q;
-        q.push({src,-1});//we put -1 bcz src has not any parent
+  
+   bool bfs( vector<int>&vis ,int start,vector<vector<int>>adj,unordered_map<int,int>&mpp){
+       
+       queue<int>q;
+       q.push(start);
+       vis[start] =1;
+       
+       while(!q.empty()){
+           int val = q.front();
+           q.pop();
+           
+           for(auto it : adj[val]){
+               
+               if(vis[it] != 1){
+                   vis[it] =1;
+                   q.push(it);
+                   mpp[it] = val;
+               }
+               else if(vis[it] == 1  && mpp[val] != it){
+                   return true;
+               }
+            
+            }
+       }
+       return false;
+       
+   }
+    bool isCycle(int V, vector<vector<int>>& edges) {
+        // Code here
         
-        while(!q.empty()){
-            int parent = q.front().second;
-            int node = q.front().first;
-            
-            q.pop();
-            
-            for(auto adjacentNode : adj[node]){
-                if(!vis[adjacentNode]){
-                    vis[adjacentNode]=1;
-                    q.push({adjacentNode,node});
-                }
-                else if(vis[adjacentNode] == 1 && parent != adjacentNode) return true;
+        vector<vector<int>>adj(V);
+        
+        for(auto it: edges){
+            adj[it[0]].push_back(it[1]);
+            adj[it[1]].push_back(it[0]);
+        }
+        
+        vector<int>vis(V,0);
+        unordered_map<int,int>mpp;
+        
+        for(int i =0 ; i < V;i++){
+            if(vis[i] != 1){
+                bool ans = bfs(vis,i,adj,mpp);
+                if(ans == true) return true;
             }
         }
         return false;
-        
-    }
-    bool isCycle(vector<vector<int>>& adj) {
-        // Code here
-        int vis[adj.size()] = {0};
-        
-        //this for loop is because we have to consider connected component graph too
-        //otherwise we will also write directly src = 0 and then traverse or iterate-- 
-        //--if we dont have to consider connected component
-        
-        for(int i = 0 ; i < adj.size() ;i++){
-            if(!vis[i]){
-                if(detect(i , adj , vis)== true) return 1;
-            }
-        }
-        return 0;
-        
     }
 };
-
-//{ Driver Code Starts.
-int main() {
-    int tc;
-    cin >> tc;
-    while (tc--) {
-        int V, E;
-        cin >> V >> E;
-        vector<vector<int>> adj(V);
-        for (int i = 0; i < E; i++) {
-            int u, v;
-            cin >> u >> v;
-            adj[u].push_back(v);
-            adj[v].push_back(u);
-        }
-        Solution obj;
-        bool ans = obj.isCycle(adj);
-        if (ans)
-            cout << "1\n";
-        else
-            cout << "0\n";
-
-        cout << "~"
-             << "\n";
-    }
-    return 0;
-}
-// } Driver Code Ends
