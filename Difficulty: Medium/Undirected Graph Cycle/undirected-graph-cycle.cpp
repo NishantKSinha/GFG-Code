@@ -1,29 +1,26 @@
 class Solution {
   public:
   
-   bool bfs( vector<int>&vis ,int start,vector<vector<int>>adj,unordered_map<int,int>&mpp){
+   bool dfs( vector<int>&vis ,int start,vector<vector<int>>&adj,unordered_map<int,int>&mpp){
        
-       queue<int>q;
-       q.push(start);
+       
        vis[start] =1;
        
-       while(!q.empty()){
-           int val = q.front();
-           q.pop();
-           
-           for(auto it : adj[val]){
+      
+           for(auto it : adj[start]){
                
                if(vis[it] != 1){
-                   vis[it] =1;
-                   q.push(it);
-                   mpp[it] = val;
+                   mpp[it] = start;
+                   if(dfs(vis, it, adj,mpp)) return true;
+                 
+                 
+                 
                }
-               else if(vis[it] == 1  && mpp[val] != it){
+               else if(vis[it] == 1  && mpp[start] != it){
                    return true;
                }
             
             }
-       }
        return false;
        
    }
@@ -42,7 +39,7 @@ class Solution {
         
         for(int i =0 ; i < V;i++){
             if(vis[i] != 1){
-                bool ans = bfs(vis,i,adj,mpp);
+                bool ans = dfs(vis,i,adj,mpp);
                 if(ans == true) return true;
             }
         }
