@@ -1,36 +1,42 @@
 class Solution {
   public:
-   bool dfs( vector<int>&vis ,vector<vector<int>> &adj,int i, vector<int>&pathvis){
-       vis[i] =1;
-    pathvis[i] =1;
+  void bfs(vector<vector<int>>& adj, vector<int>& indegree, queue<int>& q, vector<int>& ans) {
+       while(!q.empty()) {
+           int val = q.front();
+           ans.push_back(val);
+           q.pop();
            
-           for(auto it : adj[i]){
-               if(vis[it] == 0 ){
-                   if(dfs(vis,adj,it,pathvis) == true) return true;
+           for(auto it : adj[val]) {
+               indegree[it]--;
+               if(indegree[it] == 0) {
+                   q.push(it);
                }
-                else if(vis[it] ==1 && pathvis[it] ==1){
-                    return true;
-                }
            }
-       pathvis[i] =0;    // while returning path vis ==0
-       return false;
+       }
    }
     bool isCyclic(int V, vector<vector<int>> &edges) {
         // code here
         vector<vector<int>> adj(V);
-       for (auto &e : edges) {
-           adj[e[0]].push_back(e[1]);
-       }
+        vector<int> indegree(V,0);
         
-        vector<int>vis(V,0);
-        vector<int>pathvis(V,0);
-      
-        
-        for(int i=0;i < V;i++){
-            if(vis[i] == 0){
-               if(dfs(vis,adj,i,pathvis) == true) return true;
+        // build graph + indegree
+        for(auto &it: edges){
+            adj[it[0]].push_back(it[1]);
+            indegree[it[1]]++;
+        }
+       
+        queue<int> q;
+        for(int i = 0; i < V; i++){
+            if(indegree[i] == 0){
+                q.push(i);
             }
         }
+        
+        vector<int> ans;
+        bfs(adj, indegree, q, ans);
+        
+        if(ans.size() != V) return true;  //means cyclic hai
         return false;
+       
     }
 };
