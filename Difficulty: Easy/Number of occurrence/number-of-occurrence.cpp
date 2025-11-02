@@ -1,107 +1,42 @@
-//{ Driver Code Starts
-// Initial function template for C++
-
-#include <bits/stdc++.h>
-using namespace std;
-
-
-// } Driver Code Ends
-
 class Solution {
   public:
-  int lowerbound(vector<int> arr,int n , int x){
+   int upperbound(vector<int>& arr, int x){//follow striver approach
         //tc == 2 * o(log n)==> 2 bcz one for upperbound find and another for lowerbound find 
-        int mid  = -1 ;
-        int ans = n ;
-       int l = 0;
-        int r = n-1;
-        while(l <= r){
-            int mid = (r+l)/2;
-            if(arr[mid] >= x){ 
+         int i = 0 , j  = arr.size()-1;
+        int ans =arr.size();
+        while(i <= j){
+            int mid  = (i+j)/2;
+            if(arr[mid] > x){
                 ans = mid;
-                r = mid - 1;
-                
+                j = mid -1;
             }
-            else { 
-                l = mid+1;
-                
-             }
-           
+            else{
+                i = mid+1;
+            }
         }
         return ans;
     }
-    int upperbound(vector<int> arr,int n, int x){
-        int mid  = -1 ;
-        int ans = n ;
-       int l = 0;
-        int r = n-1;
-        while(l <= r){
-            int mid = (r+l)/2;
-            if(arr[mid] > x){ 
-                ans = mid;
-                r = mid - 1;
-                
+    int lowerbound(vector<int>& arr, int x){
+       int k = 0 , l  = arr.size()-1;
+       int higher = arr.size();
+        while(k <= l){
+            int mid  = (k+l)/2;
+            if(arr[mid] >= x){
+                higher = min(higher,mid);
+                l = mid -1;
             }
-            else { 
-                l = mid+1;
-                
-             }
-           
+            else{
+                k = mid+1;
+            }
         }
-        return ans;
+      
+        return higher;
     }
-	
     int countFreq(vector<int>& arr, int target) {
         // code here
-         // code here
-         int n = arr.size();
-         int x = target;
-	    int lower= lowerbound(arr ,n,  x); 
-        int upper = upperbound(arr ,n, x);
-
-        if(lower == n || arr[lower] != x) {
-            return 0 ;
-        }
-       
-        return {upper-1-lower+1};
+        int cnt1 = lowerbound(arr,target);
+        int cnt2 = upperbound(arr,target);
+        return cnt2-cnt1;
         
     }
 };
-
-
-
-//{ Driver Code Starts.
-
-int main() {
-    int test_case;
-    cin >> test_case;
-    cin.ignore();
-    while (test_case--) {
-
-        int d;
-        vector<int> arr, brr, crr;
-        string input;
-        getline(cin, input);
-        stringstream ss(input);
-        int number;
-        while (ss >> number) {
-            arr.push_back(number);
-        }
-        getline(cin, input);
-        ss.clear();
-        ss.str(input);
-        while (ss >> number) {
-            crr.push_back(number);
-        }
-        d = crr[0];
-        int n = arr.size();
-        Solution ob;
-        int ans = ob.countFreq(arr, d);
-        cout << ans << endl;
-
-        cout << "~"
-             << "\n";
-    }
-    return 0;
-}
-// } Driver Code Ends
