@@ -5,22 +5,18 @@ class Solution {
         // Code here
         vector<int>ans;
         queue<int>q;
-        vector<int>vis(adj.size(),0);
-        
+        vector<int>vis(adj.size(),-1);
         q.push(0);
-        vis[0] = 1;
-        
+        vis[0] =1;
+        ans.push_back(0);
         while(!q.empty()){
-            int val = q.front();
-            ans.push_back(val);
-           
+            int num = q.front();
             q.pop();
-            
-            for(auto it : adj[val]){
-                
-                if(vis[it] != 1){
+            for(auto it : adj[num]){
+                if(vis[it] == -1){
+                    vis[it] =1;
+                    ans.push_back(it);
                     q.push(it);
-                    vis[it] = 1;
                 }
             }
         }
